@@ -20,6 +20,9 @@ class GuildConfiguration:
         mute_role: Optional[int]
         log_channel: Optional[int]
 
+        suggestion_channel: Optional[int]
+        use_suggestion_threads: bool
+
         public_tags: bool
 
         suspicious_usernames: List[str]
@@ -39,6 +42,9 @@ class GuildConfiguration:
         self.jail_role = c.jail_role # type: ignore
         self.mute_role = c.mute_role # type: ignore
         self.log_channel = c.log_channel # type: ignore
+        
+        self.suggestion_channel = c.suggestion_channel # type: ignore
+        self.use_suggestion_threads = c.use_suggestion_threads  # type: ignore
 
         self.public_tags = c.public_tags # type: ignore
 
@@ -50,6 +56,8 @@ class GuildConfiguration:
             self.jail_channel, self.jail_role,
             self.mute_role,
             self.log_channel,
+            self.suggestion_channel,
+            self.use_suggestion_threads,
             self.prefixes,
             self.suspicious_usernames,
             self.public_tags
@@ -95,6 +103,19 @@ class GuildConfiguration:
             self.log_channel = None
         else:
             self.log_channel = channel.id
+        await self._update()
+
+    async def update_suggestion_channel(self, channel: Optional[TextChannel]) -> None:
+        """Updates the guild suggestion text channel."""
+        if channel is None:
+            self.suggestion_channel = None
+        else:
+            self.suggestion_channel = channel.id
+        await self._update()
+
+    async def update_suggestion_threads(self, use_threads: bool):
+        """Updates use of suggestion threads."""
+        self.use_suggestion_threads = use_threads
         await self._update()
 
     async def update_suspicious_users(self, suspicious_users: List[str]) -> None:

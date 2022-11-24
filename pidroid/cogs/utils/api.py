@@ -106,6 +106,8 @@ class GuildConfigurationTable(Base): # type: ignore
     jail_role = Column(BigInteger, nullable=True)
     mute_role = Column(BigInteger, nullable=True) # Deprecated, only used for backwards compatibility
     log_channel = Column(BigInteger, nullable=True)
+    suggestion_channel = Column(BigInteger, nullable=True)
+    use_suggestion_threads = Column(Boolean, server_default="false")
     prefixes = Column(ARRAY(Text), server_default="{}")
     suspicious_usernames = Column(ARRAY(Text), server_default="{}")
     public_tags = Column(Boolean, server_default="false")
@@ -313,6 +315,8 @@ class API:
         jail_channel: Optional[int], jail_role: Optional[int],
         mute_role: Optional[int],
         log_channel: Optional[int],
+        suggestion_channel: Optional[int],
+        use_suggestion_threads: Optional[bool],
         prefixes: List[str],
         suspicious_usernames: List[str],
         public_tags: bool
@@ -329,6 +333,8 @@ class API:
                         jail_role=jail_role,
                         mute_role=mute_role,
                         log_channel=log_channel,
+                        suggestion_channel=suggestion_channel,
+                        use_suggestion_threads=use_suggestion_threads,
                         prefixes=prefixes,
                         suspicious_usernames=suspicious_usernames,
                         public_tags=public_tags
